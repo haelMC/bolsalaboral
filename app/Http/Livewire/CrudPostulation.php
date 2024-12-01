@@ -68,6 +68,15 @@ class CrudPostulation extends Component
 
     public function store()
     {
+
+        Log::info('selectedJobOffer:', [$this->selectedJobOffer]);
+
+        if (!isset($this->selectedJobOffer) || !$this->selectedJobOffer) {
+            session()->flash('error', 'Por favor, selecciona una oferta de trabajo antes de postular.');
+            return;
+        }
+
+
         $this->validate([
             'cv' => 'required|file|max:10240|mimes:pdf,doc,docx,jpg,jpeg,png', // Asegura que el CV esté cargado
         ]);
@@ -90,10 +99,11 @@ class CrudPostulation extends Component
                                                ->where('joboffer_id', $jobofferId)
                                                ->first();
 
-            if ($existingPostulation) {
-                session()->flash('error', 'Ya te has postulado a esta oferta de trabajo.');
-                return;
-            }
+              if (!isset($this->selectedJobOffer) || !$this->selectedJobOffer) {
+           session()->flash('error', 'No se ha seleccionado ninguna oferta de trabajo.');
+                                                return;
+                                            }
+
 
             // Guardar el archivo del CV correctamente
             $cvPath = $this->cv->store('cv', 'public');  // Guarda el archivo en la carpeta 'public/cv'

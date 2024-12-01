@@ -38,9 +38,17 @@ class JobofferLivewire extends Component
 
     public function selectJobOffer($jobofferId)
     {
-        $this->selectedJobOffer = Joboffer::find($jobofferId);
-        $this->isOpen = true;
+        $this->selectedJobOffer = JobOffer::find($jobofferId);
+
+        if (!$this->selectedJobOffer) {
+            session()->flash('error', 'La oferta de trabajo seleccionada no existe.');
+            return;
+        }
+
+        $this->isOpen = true; // Abrir el modal
     }
+
+
 
 
     public function create()

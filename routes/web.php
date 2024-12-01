@@ -70,7 +70,7 @@ Route::get('/pending-approval', function () {
 Route::get('/usuarios-empresas', UserRoleTables::class)->name('usuarios-empresas');
 
 Route::get('/send-test-mail', function () {
-    $user = App\Models\User::find(8); // Cambia esto por el ID de un usuario válido
+    $user = App\Models\User::find(13); // Cambia esto por el ID de un usuario válido
     $user->notify(new App\Notifications\UsuarioAprobado());
     return 'Correo de prueba enviado!';
 });
